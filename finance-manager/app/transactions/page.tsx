@@ -12,7 +12,14 @@ const TransactionsPage = async () => {
         <h1 className="text-2xl font-bold">Transações</h1>
         <AddTransactionButton />
       </div>
-      <DataTable columns={transactionColumns} data={transactions} />
+      {transactions.length === 0 ? (
+        <div className="p-4 text-center text-gray-500">
+          <p>Não há dados disponíveis no momento.</p>
+        </div>
+      ) : (
+        <DataTable columns={transactionColumns} data={transactions} />
+      )}
+      {/* <DataTable columns={transactionColumns} data={transactions} /> */}
     </div>
   );
 };
