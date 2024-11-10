@@ -1,8 +1,38 @@
 "use client";
 
-import { Transaction, TransactionType } from "@prisma/client";
+import {
+  Transaction,
+  TransactionCategory,
+  TransactionPaymentMethod,
+  TransactionType,
+} from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import TransactionTypeBadge from "../_components/type-badge";
+import { Button } from "@/app/_components/ui/button";
+import { PencilIcon, TrashIcon } from "lucide-react";
+
+const transactionCategoryMap = {
+  [TransactionCategory.HOUSING]: "Aluguel",
+  [TransactionCategory.FOOD]: "Alimentação", // changed from "Comida" to "Alimentação"
+  [TransactionCategory.TRANSPORTATION]: "Transporte",
+  [TransactionCategory.EDUCATION]: "Educação",
+  [TransactionCategory.ENTERTAINMENT]: "Lazer",
+  [TransactionCategory.HEALTH]: "Saúde",
+  [TransactionCategory.SALARY]: "Salário",
+  [TransactionCategory.OTHER]: "Outro",
+  [TransactionCategory.UTILITY]: "Utilidade",
+};
+
+const transactionMethodMap = {
+  [TransactionPaymentMethod.CASH]: "Dinheiro",
+  [TransactionPaymentMethod.CREDIT_CARD]: "Cartão de crédito",
+  [TransactionPaymentMethod.DEBIT_CARD]: "Cartão de debito",
+  [TransactionPaymentMethod.BANK_TRANSFER]: "Transferência bancária",
+  [TransactionPaymentMethod.OTHER]: "Outro",
+  [TransactionPaymentMethod.PAYPAL]: "PayPal",
+  [TransactionPaymentMethod.GOOGLE_PAY]: "Google Pay",
+  [TransactionPaymentMethod.APPLE_PAY]: "Apple Pay",
+};
 
 export const transactionColumns: ColumnDef<Transaction>[] = [
   {
@@ -19,21 +49,48 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "category",
     header: "Categoria",
+    cell: ({ row: { original: transaction } }) =>
+      transactionCategoryMap[transaction.category],
   },
   {
     accessorKey: "paymentMethod",
     header: "Método de pagamento",
+    cell: ({ row: { original: transaction } }) =>
+      transactionMethodMap[transaction.paymentMethod],
   },
   {
     accessorKey: "date",
     header: "Data",
+    cell: ({ row: { original: transaction } }) =>
+      new Date(transaction.date).toLocaleDateString("pt-BR", {
+        year: "numeric",
+        month: "long",
+        day: "2-digit",
+      }),
   },
   {
     accessorKey: "amount",
     header: "Valor",
+    cell: ({ row: { original: transaction } }) =>
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(Number(transaction.amount)),
   },
   {
     accessorKey: "actions",
     header: "",
+    cell: () => {
+      return (
+        <div className="space-x-1">
+          <Button variant={"ghost"} size={"icon"} className="text-muted-foreground">
+            <PencilIcon />
+          </Button>
+          <Button variant={"ghost"} size={"icon"} className="text-muted-foreground">
+            <TrashIcon />
+          </Button>
+        </div>
+      );
+    },
   },
 ];
