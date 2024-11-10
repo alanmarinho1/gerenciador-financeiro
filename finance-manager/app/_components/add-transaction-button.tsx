@@ -43,10 +43,14 @@ import {
   TRANSACTION_TYPE_OPTIONS,
 } from "../_constants/transactions";
 import { DatePicker } from "./ui/date-picker";
+import { addTransaction } from "../_actions/add-transaction";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "O nome da transação é obrigatorio"),
-  amount: z.string().trim().min(1, "O valor da transação é obrigatorio"),
+  amount: z
+    .number({ required_error: "O valor da transação é obrigatorio" })
+    .positive("O valor da transação tem que ser positivo"),
   type: z.nativeEnum(TransactionType, {
     required_error: "O tipo da transação é obrigatorio",
   }),
@@ -64,23 +68,32 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 const AddTransactionButton = () => {
+  const [dialogIsOpen, setDialogIsOpen] = useState(false);
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      amount: "",
+      amount: 1,
       type: TransactionType.DEPOSIT,
       category: TransactionCategory.OTHER,
       paymentMethod: TransactionPaymentMethod.CASH,
       date: new Date(),
     },
   });
-  function onSubmit(values: FormSchema) {
-    console.log(values);
+  async function onSubmit(values: FormSchema) {
+    try {
+      await addTransaction(values);
+      setDialogIsOpen(false);
+      form.reset();
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <Dialog
+      open={dialogIsOpen}
       onOpenChange={(open) => {
+        setDialogIsOpen(open);
         if (!open) {
           form.reset();
         }
@@ -119,7 +132,15 @@ const AddTransactionButton = () => {
                 <FormItem>
                   <FormLabel>Valor</FormLabel>
                   <FormControl>
-                    <MoneyInput placeholder="Valor da transação" {...field} />
+                    <MoneyInput
+                      placeholder="Valor da transação"
+                      value={field.value}
+                      onValueChange={({ floatValue }) =>
+                        field.onChange(floatValue)
+                      }
+                      onBlur={field.onBlur}
+                      disabled={field.disabled}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
