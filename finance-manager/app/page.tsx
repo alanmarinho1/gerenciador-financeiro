@@ -4,6 +4,7 @@ import { UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { dark } from "@clerk/themes";
+import NavBar from "./_components/navbar";
 
 export default async function Home() {
   const { userId } = await auth();
@@ -11,8 +12,6 @@ export default async function Home() {
     redirect("/login");
   }
   return (
-    <div className="flex h-full items-center justify-center">
-      <UserButton showName />
-    </div>
+    <NavBar />
   );
 }
