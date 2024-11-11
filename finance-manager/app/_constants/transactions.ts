@@ -1,4 +1,8 @@
-import { TransactionCategory, TransactionPaymentMethod, TransactionType } from "@prisma/client";
+import {
+  TransactionCategory,
+  TransactionPaymentMethod,
+  TransactionType,
+} from "@prisma/client";
 
 export const TRANSACTION_TYPE_OPTIONS = [
   { value: TransactionType.DEPOSIT, label: "Depósito" },
