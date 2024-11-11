@@ -71,7 +71,7 @@ const getDashboard = async (month: string) => {
       by: ["category"],
       where: {
         ...where,
-      type: TransactionType.EXPENSE,
+        type: TransactionType.EXPENSE,
       },
       _sum: {
         amount: true,
@@ -84,6 +84,15 @@ const getDashboard = async (month: string) => {
       (Number(category._sum.amount) / Number(expensesTotal)) * 100,
     ),
   }));
+  const lastTransactions = await db.transaction.findMany({
+    where: {
+      ...where,
+    },
+    orderBy: {
+      date: "desc",
+    },
+    take: 10,
+  });
   return {
     depositsTotal,
     investmentsTotal,
@@ -91,6 +100,7 @@ const getDashboard = async (month: string) => {
     balance,
     typesPercentage,
     totalExpensePerCategory,
+    lastTransactions,
   };
 };
 

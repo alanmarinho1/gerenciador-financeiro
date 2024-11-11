@@ -35,3 +35,14 @@ export const TRANSACTION_CATEGORY_OPTIONS = [
   { value: TransactionCategory.OTHER, label: "Outro" },
   { value: TransactionCategory.UTILITY, label: "Utilidade" },
 ];
+
+export const TRANSACTION_PAYMENT_METHOD_ICONS = {
+  [TransactionPaymentMethod.CASH]: "money.svg",
+  [TransactionPaymentMethod.CREDIT_CARD]: "card.svg",
+  [TransactionPaymentMethod.DEBIT_CARD]: "card.svg",
+  [TransactionPaymentMethod.BANK_TRANSFER]: "bank-transfer.svg",
+  [TransactionPaymentMethod.PAYPAL]: "paypal.svg",
+  [TransactionPaymentMethod.APPLE_PAY]: "apple.svg",
+  [TransactionPaymentMethod.GOOGLE_PAY]: "google.svg",
+  [TransactionPaymentMethod.OTHER]: "bill.svg",
+};
