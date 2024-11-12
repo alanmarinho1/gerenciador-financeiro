@@ -85,7 +85,7 @@ const TransactionPieChart = ({
 
   return (
     <Card className="flex flex-col">
-      <CardHeader className=" items-center">
+      <CardHeader className="pb-2 items-center">
         <CardTitle>Transações</CardTitle>
         <CardDescription>
           {MONTH_OPTIONS.find((option) => option.value === month)?.label}
@@ -94,7 +94,7 @@ const TransactionPieChart = ({
       <CardContent className="flex-1 px-12">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-[230px]"
         >
           <PieChart>
             <ChartTooltip
