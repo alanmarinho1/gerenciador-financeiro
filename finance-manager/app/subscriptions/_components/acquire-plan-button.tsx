@@ -23,7 +23,7 @@ const AcquirePlanButton = () => {
   if (hasPremiumPlan) {
     return (
       <Button
-        onClick={handleAcquirePlanClick}
+        //onClick={handleAcquirePlanClick}
         className="w-full rounded-full py-4 text-lg font-bold"
         variant="link"
       >

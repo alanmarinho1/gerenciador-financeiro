@@ -3,9 +3,9 @@ import NavBar from "../_components/navbar";
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader } from "../_components/ui/card";
 import { CheckIcon, XIcon } from "lucide-react";
-import { Button } from "../_components/ui/button";
 import AcquirePlanButton from "./_components/acquire-plan-button";
 import { Badge } from "../_components/ui/badge";
+import getCurrentMonthTransactions from "../_data/get-current-month-transactions";
 
 const SubscriptionsPage = async () => {
   const { userId } = await auth();
@@ -14,6 +14,7 @@ const SubscriptionsPage = async () => {
     redirect("/login");
   }
   const user = await clerkClient().users.getUser(userId);
+  const currentMonthTransactions = await getCurrentMonthTransactions()
   const hasPremiumPlan = user.publicMetadata.subscriptionPlan === "premium";
   return (
     <div>
@@ -35,7 +36,10 @@ const SubscriptionsPage = async () => {
             <CardContent className="space-y-6 py-8">
               <div className="flex items-center gap-2">
                 <CheckIcon className="text-primary" />
-                <p className="text-sm">Apenas 10 transações por mês</p>
+                <p className="text-sm">
+                  Apenas 10 transações por mês ({currentMonthTransactions} de
+                  10)
+                </p>
               </div>
               <div className="flex items-center gap-2">
                 <XIcon className="text-danger" />
