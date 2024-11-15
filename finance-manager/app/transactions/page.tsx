@@ -5,7 +5,6 @@ import AddTransactionButton from "../_components/add-transaction-button";
 import Navbar from "../_components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import getCurrentMonthTransactions from "../_data/get-current-month-transactions";
 import canUserAddTransaction from "../_data/can-user-add-transaction";
 
 const TransactionsPage = async () => {
@@ -22,7 +21,7 @@ const TransactionsPage = async () => {
   if (!userId) {
     redirect("/login");
   }
-  const userCanAddTransaction = await canUserAddTransaction();  
+  const userCanAddTransaction = await canUserAddTransaction();
   return (
     <div>
       <Navbar />

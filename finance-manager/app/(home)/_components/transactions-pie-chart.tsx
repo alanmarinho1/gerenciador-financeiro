@@ -1,18 +1,12 @@
 "use client";
 
-import {
-  PiggyBankIcon,
-  TrendingDownIcon,
-  TrendingUp,
-  TrendingUpIcon,
-} from "lucide-react";
+import { PiggyBankIcon, TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
@@ -26,14 +20,6 @@ import { TransactionType } from "@prisma/client";
 import { MONTH_OPTIONS } from "../../_constants/month";
 import { TransactionPercentagePerType } from "@/app/_data/get-dashboard/types";
 import PercentageItem from "./percentage-item";
-
-// const chartData = [
-//   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-//   { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-//   { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-//   { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-//   { browser: "other", visitors: 90, fill: "var(--color-other)" },
-// ];
 
 const chartConfig = {
   [TransactionType.INVESTMENT]: {
@@ -85,7 +71,7 @@ const TransactionPieChart = ({
 
   return (
     <Card className="flex flex-col">
-      <CardHeader className="pb-2 items-center">
+      <CardHeader className="items-center pb-2">
         <CardTitle>Transações</CardTitle>
         <CardDescription>
           {MONTH_OPTIONS.find((option) => option.value === month)?.label}

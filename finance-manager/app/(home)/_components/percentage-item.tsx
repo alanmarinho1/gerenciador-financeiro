@@ -1,5 +1,3 @@
-import { TrendingUpIcon } from "lucide-react";
-
 interface PercentageItemProps {
   icon: React.ReactNode;
   title: string;

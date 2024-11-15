@@ -4,14 +4,12 @@ import {
   Transaction,
   TransactionCategory,
   TransactionPaymentMethod,
-  TransactionType,
 } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import TransactionTypeBadge from "../_components/type-badge";
 import { Button } from "@/app/_components/ui/button";
-import { PencilIcon, TrashIcon } from "lucide-react";
-import { useState } from "react";
-import UpsertTransactionDialog from "@/app/_components/upsert-transaction-dialog";
+import { TrashIcon } from "lucide-react";
+import EditTransactionButton from "../_components/edit-transaction-button";
 
 const transactionCategoryMap = {
   [TransactionCategory.HOUSING]: "Aluguel",
@@ -81,35 +79,12 @@ export const transactionColumns: ColumnDef<Transaction>[] = [
   },
   {
     accessorKey: "actions",
-    header: "",
+    header: "Ações",
     cell: ({ row: { original: transaction } }) => {
-      const [dialogIsOpen, setDialogIsOpen] = useState(false);
       return (
         <div className="space-x-1">
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            className="text-muted-foreground"
-            onClick={() => {
-              setDialogIsOpen(true);
-            }}
-          >
-            <PencilIcon />
-          </Button>
-          <UpsertTransactionDialog
-            isOpen={dialogIsOpen}
-            setIsOpen={setDialogIsOpen}
-            defaultValues={{
-              ...transaction,
-              amount: Number(transaction.amount),
-            }}
-            transactionId={transaction.id}
-          />
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            className="text-muted-foreground"
-          >
+          <EditTransactionButton transaction={transaction} />
+          <Button variant="ghost" size="icon" className="text-muted-foreground">
             <TrashIcon />
           </Button>
         </div>

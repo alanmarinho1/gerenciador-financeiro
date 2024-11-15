@@ -3,7 +3,6 @@
 import { Button } from "@/app/_components/ui/button";
 import { loadStripe } from "@stripe/stripe-js";
 import { createStripeCheckout } from "../_actions/create-checkout";
-import Stripe from "stripe";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
