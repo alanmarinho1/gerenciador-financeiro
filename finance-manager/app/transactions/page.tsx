@@ -6,6 +6,7 @@ import Navbar from "../_components/navbar";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import canUserAddTransaction from "../_data/can-user-add-transaction";
+import { ScrollArea } from "../_components/ui/scroll-area";
 
 const TransactionsPage = async () => {
   const { userId } = await auth();
@@ -37,10 +38,12 @@ const TransactionsPage = async () => {
           <p>Não há dados disponíveis no momento.</p>
         </div>
       ) : (
-        <DataTable
-          columns={transactionColumns}
-          data={JSON.parse(JSON.stringify(transactions))}
-        />
+        <ScrollArea className="h-[calc(103vh-200px)]">
+          <DataTable
+            columns={transactionColumns}
+            data={JSON.parse(JSON.stringify(transactions))}
+          />
+        </ScrollArea>
       )}
     </div>
   );
