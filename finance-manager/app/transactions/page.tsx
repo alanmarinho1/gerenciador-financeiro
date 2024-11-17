@@ -16,6 +16,9 @@ const TransactionsPage = async () => {
     where: {
       userId,
     },
+    orderBy: {
+      date: "desc",
+    },
   });
 
   if (!userId) {
@@ -34,7 +37,10 @@ const TransactionsPage = async () => {
           <p>Não há dados disponíveis no momento.</p>
         </div>
       ) : (
-        <DataTable columns={transactionColumns} data={transactions} />
+        <DataTable
+          columns={transactionColumns}
+          data={JSON.parse(JSON.stringify(transactions))}
+        />
       )}
     </div>
   );

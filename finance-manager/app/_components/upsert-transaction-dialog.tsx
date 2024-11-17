@@ -89,18 +89,16 @@ const UpsertTransactionDialog = ({
       date: new Date(),
     },
   });
+  const isUpdate = Boolean(transactionId);
   async function onSubmit(values: FormSchema) {
     try {
       await upsertTransaction({ ...values, id: transactionId });
       setIsOpen(false);
-      {
-        isUpdate
-          ? toast.success("Transação atualizada com sucesso")
-          : toast.success("Transação adicionada com sucesso");
-      }
-      // if(isUpdate){
-      //   toast.success("Transação atualizada com sucesso");
-      // }
+
+      const message = isUpdate
+        ? "Transação atualizada com sucesso"
+        : "Transação adicionada com sucesso";
+      toast.success(message);
 
       form.reset();
     } catch (error) {
@@ -108,7 +106,7 @@ const UpsertTransactionDialog = ({
       toast.error("Ocorreu um erro ao adicionar a transação");
     }
   }
-  const isUpdate = Boolean(transactionId);
+
   useEffect(() => {
     if (defaultValues) {
       form.reset(defaultValues);
