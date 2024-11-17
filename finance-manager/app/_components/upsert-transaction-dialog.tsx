@@ -42,6 +42,7 @@ import {
 import { DatePicker } from "./ui/date-picker";
 import { upsertTransaction } from "../_actions/upsert-transaction";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 interface UpsertTransactionDialogProps {
   isOpen: boolean;
@@ -92,9 +93,19 @@ const UpsertTransactionDialog = ({
     try {
       await upsertTransaction({ ...values, id: transactionId });
       setIsOpen(false);
+      {
+        isUpdate
+          ? toast.success("Transação atualizada com sucesso")
+          : toast.success("Transação adicionada com sucesso");
+      }
+      // if(isUpdate){
+      //   toast.success("Transação atualizada com sucesso");
+      // }
+
       form.reset();
     } catch (error) {
       console.log(error);
+      toast.error("Ocorreu um erro ao adicionar a transação");
     }
   }
   const isUpdate = Boolean(transactionId);
@@ -116,7 +127,9 @@ const UpsertTransactionDialog = ({
       <DialogTrigger asChild></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isUpdate ? "Editar" : "Adicionar"} transação</DialogTitle>
+          <DialogTitle>
+            {isUpdate ? "Editar" : "Adicionar"} transação
+          </DialogTitle>
           <DialogDescription>Descrição da transação</DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -257,7 +270,11 @@ const UpsertTransactionDialog = ({
                   Cancelar
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={form.formState.isSubmitting} onClick={form.handleSubmit(onSubmit)}>
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                onClick={form.handleSubmit(onSubmit)}
+              >
                 {isUpdate ? "Editar" : "Adicionar"}
               </Button>
             </DialogFooter>
